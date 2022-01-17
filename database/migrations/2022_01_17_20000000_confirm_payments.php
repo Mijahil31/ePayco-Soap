@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Wallet extends Migration
+class ConfirmPayments extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class Wallet extends Migration
      */
     public function up()
     {
-        Schema::create('wallet', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('id_user')->unsigned();
-            $table->float('value')->unique();
+        Schema::create('confirm_payments', function (Blueprint $table) {
+            $table->id('id');
+            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_payments');
+            $table->string('code');
             $table->timestamps();
             $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_payments')->references('id')->on('payments');
         });
     }
 
@@ -29,6 +31,6 @@ class Wallet extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('confirm_payments');
     }
 }

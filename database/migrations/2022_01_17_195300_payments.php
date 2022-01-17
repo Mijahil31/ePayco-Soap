@@ -14,11 +14,11 @@ class Payments extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('id_walltet')->unsigned();
-            $table->float('value');
+            $table->id('id');
+            $table->unsignedBigInteger('id_walltet');
+            $table->double('value', 8, 2);
             $table->string('description');
-            $table->uuid('id_user_payments')->unsigned();
+            $table->unsignedBigInteger('id_user_payments');
             $table->timestamps();
             $table->foreign('id_walltet')->references('id')->on('wallet');
             $table->foreign('id_user_payments')->references('id')->on('users');
@@ -32,6 +32,6 @@ class Payments extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('payments');
     }
 }
