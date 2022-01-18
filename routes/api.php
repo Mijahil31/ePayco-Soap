@@ -23,9 +23,14 @@ use App\Http\Controllers\PaymentController;
 // });
 
 
-Route::resources([
-    'user' => UserController::class,
-    'payment' => PaymentController::class,
-    'wallet' => WalletController::class,
-    'confirm' => ConfirmPaymentController::class,
-]);
+// Route::resources([
+//     'user' => UserController::class,
+//     'payment' => PaymentController::class,
+//     'wallet' => WalletController::class,
+//     'confirm' => ConfirmPaymentController::class,
+// ]);
+
+Route::post('/user', [UserController::class, 'registro_cliente']);
+Route::get('/user/{id}', [UserController::class, 'show']);
+Route::get('/user', [UserController::class, 'consultaUsuario']);
+Route::put('/wallet', [WalletController::class, 'recargarBilletera']);

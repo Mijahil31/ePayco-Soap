@@ -3,82 +3,107 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Wallet;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function registro_cliente(Request $request)
     {
-        //
+        try {
+
+            $user_creado = User::create([
+                'name'=> $request->name,
+                'email'=> $request->email,
+                'document'=>$request->document,
+                'phone'=>$request->phone,
+            ]);
+
+            $wallet = Wallet::create([
+                'id_user' => $user_creado->id,
+                'value' => 0.0
+            ]);
+
+            $data = [
+                'success' => 'true',
+                'cod_error' => 00,
+                'data'=>'Usuario Creado con exito'
+            ];
+            return response()->xml($data);
+
+        } catch (\Throwable $th) {
+
+            $data = [
+                'success' => 'false',
+                'cod_error' => 505,
+                'message_error'=>'Error al crear usuario'
+            ];
+            return response()->xml($data);
+        }
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        try {
+
+            $usuario = User::find($id);
+
+            $data = [
+                'success' => 'true',
+                'cod_error' => 00,
+                'data'=>[
+                    'id'=>$usuario->id,
+                    'name'=>$usuario->name,
+                    'email'=>$usuario->email,
+                    'document'=>$usuario->document,
+                    'phone'=>$usuario->phone
+                ]
+            ];
+
+            return response()->xml($data);
+        } catch (\Throwable $th) {
+
+            $data = [
+                'success' => 'false',
+                'cod_error' => 404,
+                'message_error'=>'Usuario no existe'
+            ];
+
+            return response()->xml($data);
+        }
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function consultaUsuario(Request $request){
+
+        try {
+            $usuario = User::where('document', $request->document)->where('phone', $request->phone)->first();
+            $data = [
+                'success' => 'true',
+                'cod_error' => 00,
+                'data'=>[
+                    'id'=>$usuario->id,
+                    'name'=>$usuario->name,
+                    'email'=>$usuario->email,
+                    'document'=>$usuario->document,
+                    'phone'=>$usuario->phone
+                ]
+            ];
+            return response()->xml($data);
+        } catch (\Throwable $th) {
+
+            $data = [
+                'success' => 'false',
+                'cod_error' => 404,
+                'message_error'=>'Usuario no existe'
+            ];
+
+            return response()->xml($data);
+        }
+
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

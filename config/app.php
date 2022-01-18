@@ -174,6 +174,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        /*Provider para Soap*/
+        Artisaninweb\SoapWrapper\ServiceProvider::class,
+        Mtownsend\ResponseXml\Providers\ResponseXmlServiceProvider::class,
 
     ],
 
@@ -229,7 +232,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        /* Alises Providers */
+        'SoapWrapper' => Artisaninweb\SoapWrapper\Facade\SoapWrapper::class,
     ],
 
 ];

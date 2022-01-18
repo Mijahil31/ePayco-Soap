@@ -3,82 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Wallet;
 
 class WalletController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function recargarBilletera(Request $request){
+
+        try {
+
+            $usuario = User::where('document', $request->document)->where('phone', $request->phone)->first();
+            $id_usuario = $usuario->id;
+
+            $billetera_value = Wallet::where('id_user', $id_usuario)->first();
+            $billetera_value = $billetera_value->value + $request->value;
+
+            $billetera = Wallet::where('id_user', $id_usuario)->update(['value'=>$billetera_value]);
+
+            $data = [
+                'success' => 'true',
+                'cod_error' => 00,
+                'data'=>[
+                    'id'=>$usuario->id,
+                    'name'=>$usuario->name,
+                    'email'=>$usuario->email,
+                    'document'=>$usuario->document,
+                    'phone'=>$usuario->phone,
+                    'wallet'=>$billetera_value
+                ]
+            ];
+            return response()->xml($data);
+
+        } catch (\Throwable $th) {
+
+            $data = [
+                'success' => 'false',
+                'cod_error' => 404,
+                'message_error'=>'Error al recargar billetera'
+            ];
+
+            return response()->xml($data);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

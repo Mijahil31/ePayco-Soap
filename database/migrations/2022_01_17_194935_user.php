@@ -18,6 +18,7 @@ class User extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('document')->unique();
+            $table->string('phone')->unique();
             $table->timestamps();
         });
     }
