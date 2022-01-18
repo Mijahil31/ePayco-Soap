@@ -21,4 +21,8 @@ class User extends Authenticatable
         'document',
         'phone'
     ];
+
+    public function usuarioBusqueda(){
+
+    }
 }

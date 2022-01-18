@@ -22,15 +22,9 @@ use App\Http\Controllers\PaymentController;
 //     return $request->user();
 // });
 
+Route::post('/user', [UserController::class, 'registro_cliente']); /* Se registra el usuario */
+Route::get('/user/{id}', [UserController::class, 'show']); /* Se muestra el usuario desde el id */
+Route::get('/user', [UserController::class, 'consultaUsuario']); /* Se consulta el usuario mediante sus datos */
 
-// Route::resources([
-//     'user' => UserController::class,
-//     'payment' => PaymentController::class,
-//     'wallet' => WalletController::class,
-//     'confirm' => ConfirmPaymentController::class,
-// ]);
-
-Route::post('/user', [UserController::class, 'registro_cliente']);
-Route::get('/user/{id}', [UserController::class, 'show']);
-Route::get('/user', [UserController::class, 'consultaUsuario']);
-Route::put('/wallet', [WalletController::class, 'recargarBilletera']);
+Route::put('/wallet', [WalletController::class, 'recargarBilletera']); /* Se recarga la billetera */
+Route::get('/wallet', [WalletController::class, 'consultarSaldo']); /* Se consulta el saldo actual de la billetera */

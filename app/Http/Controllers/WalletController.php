@@ -9,33 +9,29 @@ use App\Models\Wallet;
 class WalletController extends Controller
 {
 
-    public function show($id)
+    public function consultarSaldo(Request $request)
     {
-        //
-    }
-
-    public function recargarBilletera(Request $request){
-
         try {
 
-            $usuario = User::where('document', $request->document)->where('phone', $request->phone)->first();
-            $id_usuario = $usuario->id;
+            $billetera = Wallet::whereHas('user', function ($query) use ($request){
+                $query->where('document', $request->document)
+                      ->where('phone', $request->phone);
+            })->first();
 
-            $billetera_value = Wallet::where('id_user', $id_usuario)->first();
-            $billetera_value = $billetera_value->value + $request->value;
+            foreach($billetera->usuario as $users){}
 
-            $billetera = Wallet::where('id_user', $id_usuario)->update(['value'=>$billetera_value]);
+            // dd($billetera->usuario->name);
 
             $data = [
                 'success' => 'true',
                 'cod_error' => 00,
                 'data'=>[
-                    'id'=>$usuario->id,
-                    'name'=>$usuario->name,
-                    'email'=>$usuario->email,
-                    'document'=>$usuario->document,
-                    'phone'=>$usuario->phone,
-                    'wallet'=>$billetera_value
+                    'id'=>$billetera->usuario->id,
+                    'name'=>$billetera->usuario->name,
+                    'email'=>$billetera->usuario->email,
+                    'document'=>$billetera->usuario->document,
+                    'phone'=>$billetera->usuario->phone,
+                    'wallet'=>$billetera->value
                 ]
             ];
             return response()->xml($data);
@@ -45,6 +41,54 @@ class WalletController extends Controller
             $data = [
                 'success' => 'false',
                 'cod_error' => 404,
+                'message_error'=>'Usuario no existe'
+            ];
+
+            return response()->xml($data);
+        }
+
+    }
+
+    public function recargarBilletera(Request $request){
+
+        try {
+
+            $billetera = Wallet::whereHas('user', function ($query) use ($request){
+                $query->where('document', $request->document)
+                      ->where('phone', $request->phone);
+            })->first();
+
+            foreach($billetera->usuario as $users){}
+
+            $billetera_value = $billetera->value + $request->value;
+
+            $billetera_update = Wallet::whereHas('user', function ($query) use ($request){
+                $query->where('document', $request->document)->where('phone', $request->phone);
+            })->update([
+                'value'=> $billetera_value
+            ]);
+
+
+            // dd($billetera);
+            $data = [
+                'success' => 'true',
+                'cod_error' => 00,
+                'data'=>[
+                    'id'=>$billetera->usuario->id,
+                    'name'=>$billetera->usuario->name,
+                    'email'=>$billetera->usuario->email,
+                    'document'=>$billetera->usuario->document,
+                    'phone'=>$billetera->usuario->phone,
+                    'wallet'=>$billetera_value
+                ]
+            ];
+            return response()->xml($data);
+
+        } catch (\Throwable $th) {
+
+            $data = [
+                'success' => 'false',
+                'cod_error' => 505,
                 'message_error'=>'Error al recargar billetera'
             ];
 

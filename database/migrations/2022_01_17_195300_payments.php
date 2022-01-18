@@ -18,6 +18,7 @@ class Payments extends Migration
             $table->unsignedBigInteger('id_walltet');
             $table->double('value', 8, 2);
             $table->string('description');
+            $table->boolean('confirm')->default(false);
             $table->unsignedBigInteger('id_user_payments');
             $table->timestamps();
             $table->foreign('id_walltet')->references('id')->on('wallet');

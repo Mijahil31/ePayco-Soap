@@ -19,8 +19,13 @@ class Wallet extends Model
     ];
 
 
-    public function User()
+    public function user()
     {
-        return $this->hasOne(User);
+        return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+
+    public function usuario()
+    {
+        return $this->hasOne(User::class, 'id', 'id_user');
     }
 }

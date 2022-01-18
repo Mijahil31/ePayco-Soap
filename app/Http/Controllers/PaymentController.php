@@ -3,82 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Payment;
+use App\Models\Wallet;
+use App\Models\ConfirmPayment;
 
 class PaymentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    /* Funcion para pagar*/
+    public function pagar(Request $request){
+        $billetera = Wallet::whereHas('user', function ($query) use ($request){
+            $query->where('document', $request->document)
+                  ->where('phone', $request->phone);
+        })->first();
+
+        foreach($billetera->usuario as $users){}
+
+        if ($billetera->value >= $request->pago) {
+            $pago = Payment::create([
+                'id_walltet' => $billetera->id,
+                'value' => $request->value,
+                'description'=> $request->description,
+                'id_user_payments'=> $request->id_user_payments
+            ]);
+
+
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    /* Funcion para confirmar el pago*/
+    public function confirmarPago(Request $request){
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
