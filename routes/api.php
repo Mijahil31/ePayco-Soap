@@ -28,3 +28,6 @@ Route::get('/user', [UserController::class, 'consultaUsuario']); /* Se consulta 
 
 Route::put('/wallet', [WalletController::class, 'recargarBilletera']); /* Se recarga la billetera */
 Route::get('/wallet', [WalletController::class, 'consultarSaldo']); /* Se consulta el saldo actual de la billetera */
+
+Route::post('/payment', [PaymentController::class, 'pagar']); /* ruta para pagar */
+Route::put('/payment', [PaymentController::class, 'confirmarPago']); /* Ruta para confirmar el pago */

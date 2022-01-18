@@ -20,8 +20,6 @@ class WalletController extends Controller
 
             foreach($billetera->usuario as $users){}
 
-            // dd($billetera->usuario->name);
-
             $data = [
                 'success' => 'true',
                 'cod_error' => 00,
@@ -68,8 +66,6 @@ class WalletController extends Controller
                 'value'=> $billetera_value
             ]);
 
-
-            // dd($billetera);
             $data = [
                 'success' => 'true',
                 'cod_error' => 00,

@@ -17,17 +17,23 @@ class Payment extends Model
         'id_walltet',
         'value',
         'description',
-        'id_user_payments'
+        'id_user_payments',
+        'code'
     ];
 
 
     public function Wallet()
     {
-        return $this->hasOne(Wallet);
+        return $this->hasOne(Wallet::class, 'id', 'id_walltet');
     }
 
-    public function user_payments()
+    /**
+     * Get all of the comments for the Payment
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user_payments(): HasMany
     {
-        return $this->hasOne(User);
+        return $this->hasMany(User::class, 'id', 'id_user_payments');
     }
 }
