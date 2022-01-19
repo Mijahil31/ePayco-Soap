@@ -35,7 +35,7 @@ class PaymentController extends Controller
 
                 Mail::to($billetera->usuario->email)->send(new Confirmacion($pago));
                 $data = [
-                    'success' => 'true',
+                    'success' => true,
                     'cod_error' => 00,
                     'data'=>[
                         'id'=>$billetera->usuario->id,
@@ -50,7 +50,7 @@ class PaymentController extends Controller
             }else{
 
                 $data = [
-                    'success' => 'true',
+                    'success' => false,
                     'cod_error' => 504,
                     'data'=>'No tiene saldo suficiente'
                 ];
@@ -59,7 +59,7 @@ class PaymentController extends Controller
 
         } catch (\Throwable $th) {
             $data = [
-                'success' => 'true',
+                'success' => false,
                 'cod_error' => 505,
                 'data'=>'Error al pagar'
             ];
@@ -104,7 +104,7 @@ class PaymentController extends Controller
                         ]);
 
                 $data = [
-                    'success' => 'true',
+                    'success' => true,
                     'cod_error' => 00,
                     'data'=>'Pago completado con exito'
                 ];
@@ -113,7 +113,7 @@ class PaymentController extends Controller
             } else {
 
                 $data = [
-                    'success' => 'true',
+                    'success' => false,
                     'cod_error' => 504,
                     'data'=>'No posee saldo disponible'
                 ];
@@ -123,7 +123,7 @@ class PaymentController extends Controller
         } catch (\Throwable $th) {
 
             $data = [
-                'success' => 'true',
+                'success' => false,
                 'cod_error' => 505,
                 'data'=>'Error al procesar confirmacion del pago'
             ];

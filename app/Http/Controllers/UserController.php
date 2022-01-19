@@ -79,7 +79,9 @@ class UserController extends Controller
     public function consultaUsuario(Request $request){
 
         try {
+
             $usuario = User::where('document', $request->document)->where('phone', $request->phone)->first();
+            // dd($request);
             $data = [
                 'success' => 'true',
                 'cod_error' => 00,
@@ -92,6 +94,7 @@ class UserController extends Controller
                 ]
             ];
             return response()->xml($data);
+
         } catch (\Throwable $th) {
 
             $data = [
