@@ -14,8 +14,7 @@ class PaymentController extends Controller
     /* Funcion para pagar*/
     public function pagar(Request $request){
 
-
-        try {
+        // try {
 
             $billetera = Wallet::whereHas('user', function ($query) use ($request){
                 $query->where('document', $request->document)
@@ -57,14 +56,14 @@ class PaymentController extends Controller
                 return response()->xml($data);
             }
 
-        } catch (\Throwable $th) {
-            $data = [
-                'success' => false,
-                'cod_error' => 505,
-                'data'=>'Error al pagar'
-            ];
-            return response()->xml($data);
-        }
+        // } catch (\Throwable $th) {
+        //     $data = [
+        //         'success' => false,
+        //         'cod_error' => 505,
+        //         'data'=>'Error al pagar'
+        //     ];
+        //     return response()->xml($data);
+        // }
 
     }
 

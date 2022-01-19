@@ -6,8 +6,8 @@
     <title>Confirmacion del correo</title>
 </head>
 <body>
-    <h1>ePayco Soap</h1>
-    <p>Hola! Se ha reportado una compra de {{ $pago->description }} por un valor de {{ $pago->value }}.</p>
+    <h1>ePayco - Soap</h1>
+    <p>Hola! Se ha reportado una compra de: <strong>{{ $pago->description }}</strong> por un valor de <strong>{{ $pago->value }}</strong>.</p>
     <p>Para confirmar la misma por favor el siguente codigo:</p>
     <h2>{{ $pago->code }}</h2>
     <P>Muchas gracias por su atencion - ePayco Soap</P>
